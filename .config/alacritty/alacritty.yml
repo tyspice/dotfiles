@@ -1,0 +1,8 @@
+import:
+  - ~/.alacritty-colorscheme/themes/hyper.yaml
+
+window:
+  opacity: 0.9
+
+font:
+  size: 12.0
