@@ -97,9 +97,10 @@ source $ZSH/oh-my-zsh.sh
 # For a full list of active aliases, run `alias`.
 #
 # Example aliases
-alias zshconfig="nvim ~/.zshrc"
-alias alacrittyconfig="nvim ~/.config/alacritty/alacritty.yml"
+alias zconf="nvim ~/.zshrc"
+alias aconf="nvim ~/.config/alacritty/alacritty.yml"
 alias config='/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME'
+alias nconf="nvim ~/.config/nvim/init.lua"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm

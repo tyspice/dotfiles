@@ -1,3 +1,6 @@
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
 -- Install packer
 local install_path = vim.fn.stdpath 'data' .. '/site/pack/packer/start/packer.nvim'
 local is_bootstrap = false
@@ -21,10 +24,21 @@ require('packer').startup(function(use)
   use 'williamboman/mason-lspconfig.nvim'                                              -- Automatically install language servers to stdpath
   use { 'hrsh7th/nvim-cmp', requires = { 'hrsh7th/cmp-nvim-lsp' } }                    -- Autocompletion
   use { 'L3MON4D3/LuaSnip', requires = { 'saadparwaiz1/cmp_luasnip' } }                -- Snippet Engine and Snippet Expansion
-  use 'mjlbach/onedark.nvim'                                                           -- Theme inspired by Atom
   use 'nvim-lualine/lualine.nvim'                                                      -- Fancier statusline
   use 'lukas-reineke/indent-blankline.nvim'                                            -- Add indentation guides even on blank lines
   use 'tpope/vim-sleuth'                                                               -- Detect tabstop and shiftwidth automatically
+  use { 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim' }                 -- diff view
+  use 'nvim-tree/nvim-tree.lua'                                                        -- file explorer
+  use {"akinsho/toggleterm.nvim", tag = '*', config = function()
+    require("toggleterm").setup()
+  end}
+
+
+
+
+
+  use 'folke/tokyonight.nvim'                                                          -- Tokyonight
+  use 'morhetz/gruvbox'                                                                -- Gruvbox 
 
   -- Fuzzy Finder (files, lsp, etc)
   use { 'nvim-telescope/telescope.nvim', branch = '0.1.x', requires = { 'nvim-lua/plenary.nvim' } }
@@ -59,6 +73,9 @@ vim.api.nvim_create_autocmd('BufWritePost', {
   pattern = vim.fn.expand '$MYVIMRC',
 })
 
+-- colorsheme
+vim.cmd('colorscheme gruvbox')
+
 -- [[ Setting options ]]
 -- See `:help vim.o`
 
@@ -85,16 +102,11 @@ vim.o.smartcase = true
 vim.o.updatetime = 250
 vim.wo.signcolumn = 'yes'
 
--- Set colorscheme
--- vim.o.termguicolors = true
--- vim.cd [[colorscheme onedark]]
-
 -- Set completeopt to have a better completion experience
 vim.o.completeopt = 'menuone,noselect'
 
 -- [[ Basic Keymaps ]]
--- Set <space> as the leader key
--- See `:help mapleader`
+-- Set <space> as the leader key See `:help mapleader`
 --  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
@@ -102,9 +114,12 @@ vim.g.maplocalleader = ' '
 -- Keymaps for better default experience
 -- See `:help vim.keymap.set()`
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
+vim.keymap.set('i', 'kj', '<Esc>')
 
--- Remap for dealing with word wrap
-vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
+-- toggle tree
+vim.keymap.set('n', '<leader>t', '<cmd>NvimTreeToggle<cr>')
+
+-- Remap for dealing with word wrap vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
 -- [[ Highlight on yank ]]
@@ -123,7 +138,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 require('lualine').setup {
   options = {
     icons_enabled = false,
-    theme = 'onedark',
+    theme = 'gruvbox',
     component_separators = '|',
     section_separators = '',
   },
@@ -138,6 +153,13 @@ require('indent_blankline').setup {
   char = '┊',
   show_trailing_blankline_indent = false,
 }
+
+-- toggleterm
+require('toggleterm').setup({
+  open_mapping = '<C-g>',
+  direction = 'horizontal',
+  shade_terminals = true
+})
 
 -- Gitsigns
 -- See `:help gitsigns.txt`
@@ -245,6 +267,9 @@ require('nvim-treesitter.configs').setup {
     },
   },
 }
+
+-- nvim-tree
+require("nvim-tree").setup()
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
@@ -394,4 +419,4 @@ cmp.setup {
 }
 
 -- The line beneath this is called `modeline`. See `:help modeline`
--- vim: ts=2 sts=2 sw=2 etm
+-- vim: ts=2 sts=2 sw=2 
